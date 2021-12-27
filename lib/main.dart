@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
+
+import 'package:resturan_selector/counter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,16 +32,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final counterBloc = CounterBloc();
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    developer.log('app-log', name: '---debug called----');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -50,18 +53,41 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            StreamBuilder(
+                stream: counterBloc.counterStream,
+                initialData: 0,
+                builder: (context, snapshot) {
+                  return Text(
+                    '${snapshot.data}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: Row(children: [
+        FloatingActionButton(
+          onPressed: () {
+            counterBloc.eventSink.add(CounterAction.increment);
+          },
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        ),
+        FloatingActionButton(
+          onPressed: () {
+            counterBloc.eventSink.add(CounterAction.decrement);
+          },
+          tooltip: 'Increment',
+          child: const Icon(Icons.remove),
+        ),
+        FloatingActionButton(
+          onPressed: () {
+            counterBloc.eventSink.add(CounterAction.reset);
+          },
+          tooltip: 'Increment',
+          child: const Icon(Icons.repeat),
+        ),
+      ]), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
