@@ -33,6 +33,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final counterBloc = CounterBloc();
+  @override
+  void dispose() {
+    counterBloc.dispose();
+    super.dispose();
+  }
+
   // void _incrementCounter() {
   //   setState(() {
   //     _counter++;
