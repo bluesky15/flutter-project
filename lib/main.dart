@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
-import 'package:resturan_selector/counter_bloc.dart';
+import 'package:flutter/material.dart';
+
+import 'controller/counter/counter_bloc.dart';
+import 'view/networktest/network_test.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const TestPage(title: 'Flutter Demo Home Page'),
     );
   }
 }
